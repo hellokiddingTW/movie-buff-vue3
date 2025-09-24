@@ -15,6 +15,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "ant-design-vue": "^4.2.6",
+    "axios": "^1.12.2",
+    "pinia": "^3.0.3",
     "unplugin-auto-import": "^20.1.0",
     "unplugin-vue-components": "^29.1.0",
     "vue": "^3.5.18",

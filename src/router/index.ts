@@ -6,14 +6,14 @@ import UpComingPage from '@/pages/UpComingPage.vue'
 
 const routes = [
   { path: '/', component: HomePage },
-  { path: '/list', component: ListPage },
-  { path: '/nowPlaying', component: NowPlayingPage },
   { path: '/upComing', component: UpComingPage },
+  { path: '/nowPlaying', component: NowPlayingPage },
+  { path: '/list', component: ListPage },
 ]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [],
+  routes: routes,
 })
 
 export default router

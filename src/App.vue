@@ -1,15 +1,22 @@
 <script setup lang="ts">
-import HomePage from '@/pages/HomePage.vue';
-
+import Navbar from '@/components/Navbar.vue'
+import HomePage from '@/pages/HomePage.vue'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <h1>You did it!</h1>
-  <HomePage />
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <div class="bg">
+    <Navbar />
+    <RouterView />
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.bg {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background: url('../assets/2001.jpg') center center no-repeat;
+  background-size: cover;
+}
+</style>
