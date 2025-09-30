@@ -3,52 +3,55 @@
     <el-dialog
       @close="close"
       :model-value="!!currentMovieId"
-      class="custom-transition-dialog"
-      width="30%"
+      class="custom-transition-dialog !bg-[#000000b3] backdrop-blur"
+      width="60%"
     >
-      <div class="flex space-x-4">
-        <div>
+      <div class="grid grid-cols-6 gap-4 text-start p-5">
+        <div class="col-span-2">
           <img
+          class="rounded-sm"
             :src="`${IMG_BASE_URL}/${IMG_SIZE.infoModal}/${selectedMovie.poster_path} `"
             alt=""
           />
         </div>
-        <div>
-          <h3>{{ selectedMovie?.title }}</h3>
-          <ul>
-            <li v-for="(config, key) in SOCIAL_CONFIG" :key="key">
+        <div class="col-span-4 grid gap-y-3 text-white">
+          <h3 class="text-3xl font-bold text-white">{{ selectedMovie?.title }}</h3>
+          <ul class="flex space-x-1.5">
+            <li v-for="(config, key) in socialLinks" :key="key">
               <a
-                v-if="selectedMovie.socialNetworkIds[key]"
                 :href="`${config.url}/${selectedMovie.socialNetworkIds[key]}`"
                 target="_blank"
               >
-                <img :src="config.icon" :alt="key" />
+                <img :src="config.icon" class="w-6 h-6" :alt="key" />
               </a>
             </li>
           </ul>
-          <div>片長: {{ selectedMovie?.runtime }}分鐘</div>
+          <div>片長： {{ selectedMovie?.runtime }}分鐘</div>
 
-          <ul>
+          <ul class="flex space-x-1.5">
+            類型：
             <li v-for="genre in selectedMovie?.genres" :key="genre.id">
-              <el-tag type="info">{{ genre.name }}</el-tag>
+              <el-tag class="!text-[#000] !text-[0.75rem]" size="small" type="info">{{ genre.name }}</el-tag>
             </li>
           </ul>
-          <div>上映時間: {{ selectedMovie?.release_date }}</div>
-          <div>電影簡介: {{ selectedMovie?.overview }}</div>
+          <div>上映時間： {{ selectedMovie?.release_date }}</div>
+          <div>劇情簡介： 
+            <p>{{ selectedMovie?.overview }}</p>
+            </div>
+          <div>
+            演員陣容:
+            <p>{{ actors }}</p>
+          </div>
           <div>
             觀眾評分：
             {{ Math.trunc(selectedMovie?.vote_average) }} / 10
           </div>
-          <div>
-            演員陣容:
-            {{ actors }}
-          </div>
         </div>
       </div>
-      <template #footer>
+      <!-- <template #footer>
         <el-button @click="close">Cancel</el-button>
         <el-button type="primary" @click="close"> Confirm </el-button>
-      </template>
+      </template> -->
     </el-dialog>
   </div>
 </template>
@@ -82,6 +85,16 @@ const props = defineProps({
     default: null,
   },
 })
+
+const socialLinks = computed(() => {
+  const movie = selectedMovie.value;
+  if (!movie?.socialNetworkIds) return {};
+  return Object.fromEntries(
+    Object.entries(SOCIAL_CONFIG).filter(([key]) => {
+      return movie.socialNetworkIds[key];
+    })
+  );
+});
 
 const emit = defineEmits(['update:currentMovieId'])
 
