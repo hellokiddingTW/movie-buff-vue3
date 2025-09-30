@@ -11,6 +11,7 @@ declare module 'vue' {
     HomePage: typeof import('./src/pages/HomePage.vue')['default']
     ListPage: typeof import('./src/pages/ListPage.vue')['default']
     MovieCarousel: typeof import('./src/components/MovieCarousel.vue')['default']
+    MovieInfoModal: typeof import('./src/components/MovieInfoModal.vue')['default']
     Navbar: typeof import('./src/components/Navbar.vue')['default']
     NowPlayingPage: typeof import('./src/pages/NowPlayingPage.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

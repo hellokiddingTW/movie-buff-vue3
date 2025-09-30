@@ -4,7 +4,10 @@ import { ref } from 'vue'
 
 export const useMovieStore = defineStore('movie', () => {
   const popularMovies = ref([])
+  const upComingMovies = ref([])
+  const selectedMovie = ref({})
   const isLoading = ref(false)
+  const isLoadingDetail = ref(false)
 
   const getPopularMovies = async () => {
     try {
@@ -15,10 +18,75 @@ export const useMovieStore = defineStore('movie', () => {
       popularMovies.value = res.data.results
     } catch (error) {
       console.log(`error: ${error}`)
+      popularMovies.value = []
     } finally {
       isLoading.value = false
     }
   }
 
-  return { getPopularMovies, popularMovies, isLoading }
+  const getUpComingMovies = async (page) => {
+    const now = new Date()
+    try {
+      const res = await axiosInstance.get('/movie/upcoming', {
+        params: { language: 'en-US', page },
+      })
+
+      const filteredMovies = res.data.results
+        .filter((movie) => movie.poster_path && new Date(movie.release_date) > now)
+        .sort((a, b) => new Date(a.release_date) - new Date(b.release_date))
+      return filteredMovies
+    } catch (error) {
+      console.log(`error: ${error}`)
+      throw error
+    }
+  }
+
+  const getMovieDetail = async (movieId) => {
+    isLoadingDetail.value = true
+    try {
+      const [movieRes, socialRes, actorsRes] = await Promise.all([
+        axiosInstance.get(`/movie/${movieId}`),
+        axiosInstance.get(`/movie/${movieId}/external_ids`),
+        axiosInstance.get(`/movie/${movieId}/credits`),
+      ])
+      const actors = actorsRes.data.cast.map((actor) => actor.name)
+      selectedMovie.value = { ...movieRes.data, socialNetworkIds: socialRes.data, actors }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      isLoadingDetail.value = false
+    }
+  }
+
+  // TODO：抽象化讓每個 Api fectch function 都可以用
+  const fetchAllUpComingMovies = async (maxPage) => {
+    let page = 1
+    let movies = []
+    isLoading.value = true
+    try {
+      if (page === 1) upComingMovies.value = []
+      while (page <= maxPage) {
+        const data = await getUpComingMovies(page)
+        movies = [...movies, ...data]
+        page++
+      }
+      upComingMovies.value = movies
+    } catch (error) {
+      console.log(`error: ${error}`)
+      throw error
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  return {
+    isLoading,
+    isLoadingDetail,
+    popularMovies,
+    upComingMovies,
+    selectedMovie,
+    getPopularMovies,
+    getMovieDetail,
+    fetchAllUpComingMovies,
+  }
 })
