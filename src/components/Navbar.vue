@@ -21,7 +21,7 @@ const LIST = [
     path: '/',
   },
   { name: 'UpComing', path: '/upComing' },
-  { name: 'NowPlaying', path: '/nowPlaying' },
+  { name: 'Genres', path: '/genres' },
   {
     name: 'List',
     path: '/list',

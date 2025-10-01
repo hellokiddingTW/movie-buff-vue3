@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '@/pages/HomePage.vue'
 import ListPage from '@/pages/ListPage.vue'
-import NowPlayingPage from '@/pages/NowPlayingPage.vue'
+import GenresPage from '@/pages/GenresPage.vue'
 import UpComingPage from '@/pages/UpComingPage.vue'
 
 const routes = [
   { path: '/', component: HomePage },
   { path: '/upComing', component: UpComingPage },
-  { path: '/nowPlaying', component: NowPlayingPage },
+  { path: '/genres', component: GenresPage },
   { path: '/list', component: ListPage },
 ]
 

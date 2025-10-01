@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="isLoading" element-loading-background="rgba(0, 0, 0, 0.8)">
+  <div v-loading="isLoading" element-loading-text="載入中..." element-loading-background="rgba(0, 0, 0, 0.8)">
     <h2 class="text-[2.5rem] font-bold mb-4 text-white">熱門電影</h2>
     <MovieCarousel :popularMovies="popularMovies" />
   </div>
@@ -9,7 +9,7 @@
 import MovieCarousel from '@/components/MovieCarousel.vue'
 import { useMovieStore } from '@/store/useMovieStore.js'
 import { storeToRefs } from 'pinia'
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 
 const store = useMovieStore()
 const { getPopularMovies } = store

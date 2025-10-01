@@ -53,24 +53,44 @@ export const useMovieStore = defineStore('movie', () => {
       selectedMovie.value = { ...movieRes.data, socialNetworkIds: socialRes.data, actors }
     } catch (error) {
       console.error(error)
+      selectedMovie.value = {}
     } finally {
       isLoadingDetail.value = false
     }
   }
 
+  const getMoviesByGenre = async (page, genreId) => {
+    try {
+      const res = await axiosInstance.get('/discover/movie', {
+        params: { with_genres: genreId, language: 'en-US', page: page },
+      })
+      return res.data.results
+    } catch (error) {
+      console.log(`error: ${error}`)
+      return []
+    }
+  }
+
   // TODO：抽象化讓每個 Api fectch function 都可以用
-  const fetchAllUpComingMovies = async (maxPage) => {
-    let page = 1
+  const fetchAllUpComingMovies = async (maxPage, { type = 'upComing', page = 1, params } = {}) => {
+    const typeConfig = {
+      upComing: getUpComingMovies,
+      genre: getMoviesByGenre,
+    }
+
+    const apiFunc = typeConfig[type]
+
     let movies = []
     isLoading.value = true
     try {
       if (page === 1) upComingMovies.value = []
       while (page <= maxPage) {
-        const data = await getUpComingMovies(page)
+        const data = await apiFunc(page, params)
         movies = [...movies, ...data]
         page++
       }
-      upComingMovies.value = movies
+      if (type === 'upComing') upComingMovies.value = movies
+      else return movies
     } catch (error) {
       console.log(`error: ${error}`)
       throw error
