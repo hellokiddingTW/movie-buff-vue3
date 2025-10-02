@@ -1,9 +1,21 @@
 <template>
-  <div>
-    <ul  class="flex overflow-auto">
-      <li v-for="movie in movies" :key="movie.id">
-        <div><img :src="`https://image.tmdb.org/t/p/w200${movie.poster_path}`" alt="" /></div>
-        <div>{{ movie.title }}</div>
+  <div class="text-white">
+    <h3 class="text-xl font-bold py-5">{{ genre.label }}</h3>
+    <ul class="flex p-4 overflow-y-auto space-x-5">
+      <li
+        v-for="movie in movies"
+        :key="movie.id"
+        :class="`${
+          selectedMovieId === movie.id
+            ? 'ring-3 ring-slate-300 shadow-2xl shadow-slate-300/50 rounded-sm'
+            : ''
+        } p-1 hover:cursor-pointer`"
+        @click="handleClickMovie(movie.id)"
+      >
+        <div class="w-[12.5rem] mb-2">
+          <img :src="`https://image.tmdb.org/t/p/w200${movie.poster_path}`" alt="" />
+        </div>
+        <div class="w-[12.5rem] truncate">{{ movie.title }}</div>
       </li>
     </ul>
   </div>
@@ -16,10 +28,15 @@ import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
 
 const movies = ref([])
+const selectedMovieId = ref(null)
 
 const store = useMovieStore()
 const { fetchAllUpComingMovies } = store
 const { isLoading } = storeToRefs(store)
+
+const handleClickMovie = (movieId) => {
+  selectedMovieId.value = movieId
+}
 
 const props = defineProps({
   genre: {
@@ -30,8 +47,16 @@ const props = defineProps({
 
 onMounted(async () => {
   movies.value = await fetchAllUpComingMovies(3, { type: 'genre', params: props.genre.id })
-  console.log(`movies`, movies.value)
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: none; /* Firefox */
+}
+</style>

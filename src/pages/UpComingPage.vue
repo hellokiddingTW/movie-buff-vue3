@@ -61,7 +61,7 @@ const onOpenModal = (id) => {
 }
 
 onMounted(async () => {
-  fetchAllUpComingMovies(MAXPAGE)
+  await fetchAllUpComingMovies(MAXPAGE)
 })
 </script>
 
