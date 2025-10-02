@@ -5,7 +5,7 @@
       v-loading="isLoading"
       element-loading-background="rgba(0, 0, 0, 0.8)"
       element-loading-text="載入中..."
-      class="w-full min-h-1/2"
+      :class="`w-full ${isLoading && 'h-[23.3125rem]'}`"
     >
       <ul
         v-show="!isLoading"
@@ -20,7 +20,7 @@
                 alt=""
               />
               <div
-                class="absolute hidden inset-0 bg-black/0 group-hover:bg-black/50 group-hover:cursor-pointer transition-all duration-300 group-hover:flex items-center justify-center text-white text-lg font-bold"
+                class="absolute hidden inset-0 bg-black/0 group-hover:bg-black/70 group-hover:cursor-pointer transition-all duration-300 group-hover:flex items-center justify-center text-white text-lg font-bold"
               >
                 查看詳情
               </div>

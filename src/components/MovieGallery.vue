@@ -1,7 +1,7 @@
 <template>
   <div class="text-white">
-    <h3 class="text-xl font-bold py-5">{{ genre.label }}</h3>
-    <ul class="flex p-4 overflow-y-auto space-x-5">
+    <h3 class="text-xl font-bold pt-5">{{ genre.label }}</h3>
+    <ul v-loading="isLoading" element-loading-text="載入中..." element-loading-background="transparent" :class="`flex p-4 overflow-y-auto space-x-5 ${isLoading && 'h-[23.3125rem]'}`">
       <li
         v-for="movie in movies"
         :key="movie.id"
@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useMovieStore } from '@/store/useMovieStore.js'
 import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
@@ -32,11 +32,14 @@ const selectedMovieId = ref(null)
 
 const store = useMovieStore()
 const { fetchAllUpComingMovies } = store
-const { isLoading } = storeToRefs(store)
 
 const handleClickMovie = (movieId) => {
   selectedMovieId.value = movieId
 }
+
+const isLoading = computed(() => {
+  return movies.value.length === 0
+})
 
 const props = defineProps({
   genre: {

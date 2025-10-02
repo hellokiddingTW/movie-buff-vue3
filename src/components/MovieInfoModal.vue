@@ -3,8 +3,8 @@
     <el-dialog
       @close="close"
       :model-value="!!currentMovieId"
-      class="custom-transition-dialog !bg-[#000000b3] backdrop-blur"
-      width="60%"
+      class="custom-transition-dialog !bg-[#111827B3]/80 backdrop-blur"
+      width="70%"
     >
       <div class="grid grid-cols-6 gap-4 text-start p-5">
         <div class="col-span-2">

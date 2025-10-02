@@ -1,21 +1,29 @@
 <template>
-  <div class="container">
-    <div>Banner</div>
-    <div class="flex items-center space-x-4">
+  <div class="container relative min-h-[calc(100vh-12.5rem)]">
+    <div       
+    :class="[
+        'selectContainer transition-all duration-700 ease-in-out transform w-[40%]',
+        selectedOption.length === 0
+          ? 'absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 scale-110'
+          : 'absolute left-[7.5rem] top-8 translate-x-0 translate-y-0 scale-100'
+      ]">
       <el-select
+        append-to=".selectContainer"
         popper-class="!bg-[#111827B3] !font-bold border-none backdrop-blur-md"
         v-model="selectedOption"
         multiple
         clearable
         value-key="id"
         placeholder="請選擇電影類型"
+        @clear="handleClear"
+        @remove-tag="handleSerch"
+        @change="handleSerch"
       >
         <el-option v-for="item in options" :key="item.id" :label="item.label" :value="item" />
       </el-select>
-      <Search class="search-icon" @click="handleSerch" />
     </div>
-    <div class="space-y-5">
-      <MovieGallery v-for="genre in searchList" :genre="genre" />
+    <div class="space-y-5 pt-20">
+      <MovieGallery v-for="genre in searchList" :genre="genre" :key="genre.id" />
     </div>
   </div>
 </template>
@@ -36,8 +44,14 @@ const options = Object.keys(MOVIE_GENRES).map((key) => {
 })
 
 const handleSerch = () => {
-  searchList.value = selectedOption.value
+  searchList.value = [...selectedOption.value]
 }
+
+const handleClear = () => {
+  searchList.value = []
+}
+
+
 
 watch(selectedOption, () => {
   console.log(selectedOption.value)
@@ -45,9 +59,9 @@ watch(selectedOption, () => {
 </script>
 
 <style lang="scss" scoped>
-:deep(.el-select) {
+/* :deep(.el-select) {
   width: 40%;
-}
+} */
 
 :deep(.el-input__inner),
 :deep(.el-select__wrapper) {

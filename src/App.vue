@@ -30,7 +30,7 @@ import { RouterView } from 'vue-router'
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: url('@/assets/2001.jpg') center center no-repeat;
+  background: url('@/assets/2001.png') center center no-repeat;
   background-size: cover;
   background-attachment: fixed; 
   z-index: -1; 
