@@ -8,6 +8,7 @@ export const useMovieStore = defineStore('movie', () => {
   const selectedMovie = ref({})
   const isLoading = ref(false)
   const isLoadingDetail = ref(false)
+  const getMovieTrailers = ref([])
 
   const getPopularMovies = async () => {
     try {
@@ -65,6 +66,18 @@ export const useMovieStore = defineStore('movie', () => {
         params: { with_genres: genreId, language: 'en-US', page: page },
       })
       return res.data.results
+    } catch (error) {
+      console.log(`error: ${error}`)
+      return []
+    }
+  }
+
+  const getMovieTrailer = async (movieId) => {
+    try {
+      const res = await axiosInstance.get(`/movie/${movieId}/videos`, {
+        params: { language: 'en-US' },
+      })
+      getMovieTrailers.value = res.data.results
     } catch (error) {
       console.log(`error: ${error}`)
       return []

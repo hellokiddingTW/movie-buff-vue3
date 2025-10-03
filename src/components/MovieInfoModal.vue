@@ -48,10 +48,6 @@
           </div>
         </div>
       </div>
-      <!-- <template #footer>
-        <el-button @click="close">Cancel</el-button>
-        <el-button type="primary" @click="close"> Confirm </el-button>
-      </template> -->
     </el-dialog>
   </div>
 </template>

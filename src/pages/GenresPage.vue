@@ -1,14 +1,15 @@
 <template>
   <div class="container relative min-h-[calc(100vh-12.5rem)]">
-    <div       
-    :class="[
-        'selectContainer transition-all duration-700 ease-in-out transform w-[40%]',
+    <div
+      :class="[
+        'transition-all duration-500 ease-in-out transform w-[40%]',
         selectedOption.length === 0
           ? 'absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 scale-110'
-          : 'absolute left-[7.5rem] top-8 translate-x-0 translate-y-0 scale-100'
-      ]">
+          : 'absolute left-[7.5rem] top-8 translate-x-0 translate-y-0 scale-100',
+      ]"
+    >
       <el-select
-        append-to=".selectContainer"
+        :teleported="false"
         popper-class="!bg-[#111827B3] !font-bold border-none backdrop-blur-md"
         v-model="selectedOption"
         multiple
@@ -16,13 +17,13 @@
         value-key="id"
         placeholder="請選擇電影類型"
         @clear="handleClear"
-        @remove-tag="handleSerch"
-        @change="handleSerch"
+        @remove-tag="handleSearch"
+        @change="handleSearch"
       >
         <el-option v-for="item in options" :key="item.id" :label="item.label" :value="item" />
       </el-select>
     </div>
-    <div class="space-y-5 pt-20">
+    <div v-show="isTransitionEnd" class="space-y-5 pt-20">
       <MovieGallery v-for="genre in searchList" :genre="genre" :key="genre.id" />
     </div>
   </div>
@@ -35,6 +36,9 @@ import { ref, watch } from 'vue'
 
 const selectedOption = ref([])
 const searchList = ref([])
+const isTransitionEnd = ref(false)
+
+let transitionTimer = null
 
 const options = Object.keys(MOVIE_GENRES).map((key) => {
   return {
@@ -43,18 +47,32 @@ const options = Object.keys(MOVIE_GENRES).map((key) => {
   }
 })
 
-const handleSerch = () => {
+// const handleSearch = () => {
+//   searchList.value = [...selectedOption.value]
+// }
+
+const handleSearch = () => {
   searchList.value = [...selectedOption.value]
+  
+  if (transitionTimer) {
+    clearTimeout(transitionTimer)
+  }
+  
+  transitionTimer = setTimeout(() => {
+    if (selectedOption.value.length > 0) {
+      isTransitionEnd.value = true
+    }
+  }, 700) 
 }
 
 const handleClear = () => {
   searchList.value = []
 }
 
-
-
 watch(selectedOption, () => {
-  console.log(selectedOption.value)
+  if (selectedOption.value.length === 0) {
+    isTransitionEnd.value = false
+  }
 })
 </script>
 

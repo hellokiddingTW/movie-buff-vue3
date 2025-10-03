@@ -1,7 +1,20 @@
-@import "tailwindcss";
+
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Blern-Regular';
+  src: url('./assets/fonts/Blern.otf');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 .container {
-    margin: 0 auto;
-    max-width: 1440px;
-    padding: 0 7.5rem;
+  margin: 0 auto;
+  max-width: 1440px;
+  padding: 0 7.5rem;
+}
+
+.bt {
+  font-family: 'Blern-Regular', sans-serif; /* 名稱要一致,並加上備用字體 */
 }

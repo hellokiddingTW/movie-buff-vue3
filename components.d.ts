@@ -14,6 +14,7 @@ declare module 'vue' {
     MovieCarousel: typeof import('./src/components/MovieCarousel.vue')['default']
     MovieGallery: typeof import('./src/components/MovieGallery.vue')['default']
     MovieInfoModal: typeof import('./src/components/MovieInfoModal.vue')['default']
+    MovieTrailersModal: typeof import('./src/components/MovieTrailersModal.vue')['default']
     Navbar: typeof import('./src/components/Navbar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
