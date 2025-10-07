@@ -2,7 +2,7 @@
   <div v-if="!isLoadingDetail">
     <el-dialog
       @close="close"
-      :model-value="!!currentMovieId"
+      :model-value="!!currentModal.id"
       class="custom-transition-dialog !bg-[#111827B3]/80 backdrop-blur"
       width="70%"
     >
@@ -53,7 +53,7 @@
 </template>
 
 <script setup>
-import { computed, defineProps, watch } from 'vue'
+import { computed, watch } from 'vue'
 import { useMovieStore } from '@/store/useMovieStore.js'
 import { storeToRefs } from 'pinia'
 import { IMG_BASE_URL, IMG_SIZE } from '@/consts/image.js'
@@ -76,9 +76,9 @@ const { selectedMovie, isLoadingDetail } = storeToRefs(store)
 
 const actors = computed(() => selectedMovie.value?.actors?.slice(0, 5).join(' / ') ?? [])
 const props = defineProps({
-  currentMovieId: {
-    type: Number,
-    default: null,
+  currentModal: {
+    type: Object,
+    default: {},
   },
 })
 
@@ -92,17 +92,17 @@ const socialLinks = computed(() => {
   );
 });
 
-const emit = defineEmits(['update:currentMovieId'])
+const emit = defineEmits(['update:currentModal'])
 
 const close = () => {
-  emit('update:currentMovieId', null)
+  emit('update:currentModal', {})
 }
 
 watch(
-  () => props.currentMovieId,
-  async (newMovieId) => {
-    if (newMovieId) {
-      await getMovieDetail(newMovieId)
+  () => props.currentModal,
+  async (newValue) => {
+    if (newValue.id) {
+      await getMovieDetail(newValue.id)
       console.log(`selectedMovie`, selectedMovie.value)
     }
   },

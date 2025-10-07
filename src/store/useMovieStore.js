@@ -8,7 +8,7 @@ export const useMovieStore = defineStore('movie', () => {
   const selectedMovie = ref({})
   const isLoading = ref(false)
   const isLoadingDetail = ref(false)
-  const getMovieTrailers = ref([])
+  const movieTrailers = ref([])
 
   const getPopularMovies = async () => {
     try {
@@ -77,7 +77,7 @@ export const useMovieStore = defineStore('movie', () => {
       const res = await axiosInstance.get(`/movie/${movieId}/videos`, {
         params: { language: 'en-US' },
       })
-      getMovieTrailers.value = res.data.results
+      movieTrailers.value = res.data.results
     } catch (error) {
       console.log(`error: ${error}`)
       return []
@@ -118,8 +118,10 @@ export const useMovieStore = defineStore('movie', () => {
     popularMovies,
     upComingMovies,
     selectedMovie,
+    movieTrailers,
     getPopularMovies,
     getMovieDetail,
+    getMovieTrailer,
     fetchAllUpComingMovies,
   }
 })

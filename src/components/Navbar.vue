@@ -1,7 +1,10 @@
 <template>
   <div class="w-full flex justify-between items-center p-6">
-    <h1 class="text-white text-[2rem] p-2 bt">M o v i e B u f f</h1>
-    <div class="flex">
+    <h1 class="text-white text-[2rem] p-2 bt">
+      <span> M o v i e</span>
+      <span class="ml-5"> B u f f</span>
+    </h1>
+    <div class="flex space-x-2">
       <RouterLink
         class="text-[1.25rem] p-2 text-white bt nav-link relative hover:cursor-pointer hover:text-[#409eff]"
         v-for="item in LIST"
@@ -22,10 +25,10 @@ const LIST = [
   },
   { name: 'UpComing', path: '/upComing' },
   { name: 'Genres', path: '/genres' },
-  {
-    name: 'List',
-    path: '/list',
-  },
+  // {
+  //   name: 'List',
+  //   path: '/list',
+  // },
 ]
 </script>
 

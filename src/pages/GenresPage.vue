@@ -47,10 +47,6 @@ const options = Object.keys(MOVIE_GENRES).map((key) => {
   }
 })
 
-// const handleSearch = () => {
-//   searchList.value = [...selectedOption.value]
-// }
-
 const handleSearch = () => {
   searchList.value = [...selectedOption.value]
   

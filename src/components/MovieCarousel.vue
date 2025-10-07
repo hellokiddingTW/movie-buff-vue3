@@ -1,20 +1,20 @@
 <template>
-  <div>
-    <el-carousel height="600px" trigger="click" indicator-position="none">
-      <el-carousel-item v-for="movie in popularMovies" :key="movie.id">
-        <div class="flex justify-center w-full h-full">
-          <div class="movieCarousel">
-            <div
-              class="movieBg flex items-end space-x-8 p-5"
-              :style="{
-                backgroundImage: movie.backdrop_path
-                  ? `url(${imageBaseUrl}${imageSize}${movie.backdrop_path})`
-                  : 'none',
-              }"
-            >
+  <el-carousel height="600px" trigger="click" indicator-position="none">
+    <el-carousel-item v-for="movie in popularMovies" :key="movie.id">
+      <div class="flex justify-center w-full h-full">
+        <div class="movieCarousel">
+          <div
+            class="movieBg flex items-end justify-between p-5 w-full"
+            :style="{
+              backgroundImage: movie.backdrop_path
+                ? `url(${imageBaseUrl}${imageSize}${movie.backdrop_path})`
+                : 'none',
+            }"
+          >
+            <div class="flex items-end space-x-8">
               <div>
                 <img
-                  @click="onOpenModal(movie.id)"
+                  @click="onOpenModal(movie.id, 'info')"
                   class="w-32 aspect-[2/3] hover:w-48 hover:cursor-pointer transition-all duration-300"
                   :src="`https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}`"
                   alt=""
@@ -30,25 +30,31 @@
                   </p>
                 </div>
               </div>
-              <div></div>
+            </div>
+            <div class="cursor-pointer" @click="onOpenModal(movie.id, 'trailer')">
+              <VideoPlay style="width: 3rem; height: 3rem" />
             </div>
           </div>
         </div>
-      </el-carousel-item>
-    </el-carousel>
-    <MovieInfoModal v-model:currentMovieId="currentMovieId" />
-  </div>
+      </div>
+    </el-carousel-item>
+  </el-carousel>
+  <MovieInfoModal v-if="currentModal.type === 'info'" v-model:currentModal="currentModal" />
+  <MovieTrailersModal
+    v-if="currentModal.type === 'trailer'"
+    v-model:currentModal="currentModal"
+  />
 </template>
 
 <script setup>
 import MovieInfoModal from '@/components/MovieInfoModal.vue'
+import MovieTrailersModal from '@/components/MovieTrailersModal.vue'
 import { computed, defineProps } from 'vue'
 
 const imageBaseUrl = import.meta.env.VITE_TMDB_IMAGE_BASE_URL || 'https://image.tmdb.org/t/p/'
 const imageSize = 'w1920_and_h800_multi_faces'
 
-const currentMovieId = ref(null)
-
+const currentModal = ref({})
 
 const props = defineProps({
   popularMovies: {
@@ -57,9 +63,11 @@ const props = defineProps({
   },
 })
 
-
-const onOpenModal = (id) => {
-  currentMovieId.value = id
+const onOpenModal = (id, type) => {
+  currentModal.value = {
+    id,
+    type,
+  }
 }
 </script>
 

@@ -37,7 +37,7 @@
         </li>
       </ul>
     </div>
-    <MovieInfoModal v-model:currentMovieId="currentMovieId" />
+    <MovieInfoModal v-model:currentModal="currentModal" />
   </div>
 </template>
 
@@ -50,16 +50,18 @@ import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
 
 const MAXPAGE = 10
-const currentMovieId = ref(null)
+const currentModal = ref({})
 
 const store = useMovieStore()
 const { fetchAllUpComingMovies } = store
 const { upComingMovies, isLoading } = storeToRefs(store)
 
-const onOpenModal = (id) => {
-  currentMovieId.value = id
+const onOpenModal = (id, type) => {
+  currentModal.value = {
+    id,
+    type,
+  }
 }
-
 onMounted(async () => {
   await fetchAllUpComingMovies(MAXPAGE)
 })

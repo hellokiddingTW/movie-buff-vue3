@@ -61,16 +61,7 @@
   </div>
 </template>
 
-<!-- <script setup>
-import { Swiper, SwiperSlide } from 'swiper/vue'
- import 'swiper/css';
-const onSwiper = (swiper) => {
-  console.log(swiper)
-}
-const onSlideChange = () => {
-  console.log('slide change')
-}
-</script> -->
+
 
 <script setup>
 import { ref } from 'vue'
