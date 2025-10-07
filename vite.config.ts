@@ -8,6 +8,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/movie-buff-vue3/',
   plugins: [
     vue(),
     tailwindcss(),

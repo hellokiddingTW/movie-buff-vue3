@@ -3,7 +3,7 @@
     <el-dialog
       @close="close"
       :model-value="!!currentModal.id"
-      class="custom-transition-dialog !bg-[#111827B3]/80 backdrop-blur"
+      class="custom-transition-dialog !bg-[#ffffff]/20 backdrop-blur"
       width="70%"
     >
       <swiper
